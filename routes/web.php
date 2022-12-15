@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ArticuloController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Route;
@@ -19,13 +20,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/prueba/{nombre?}', function ($nombre = null) {
+Route::get('/prueba/{nombre?}/{apellidos?}', function ($nombre = null, $apellidos = null) {
     if ($nombre == null) {
         // return response()->redirectTo('/');
         return Response::redirectTo('/');
     }
     return view('prueba', [
         'nombre' => $nombre,
+        'apellidos' => $apellidos,
     ]);
 });
 
@@ -38,5 +40,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::resource('articulo', ArticuloController::class);
 
 require __DIR__.'/auth.php';
