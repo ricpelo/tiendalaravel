@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ArticuloController;
 use App\Http\Controllers\ProfileController;
+use App\Models\Articulo;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Route;
 
@@ -17,7 +18,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('portal', [
+        'articulos' => Articulo::all(),
+    ]);
 });
 
 Route::get('/prueba/{nombre?}/{apellidos?}', function ($nombre = null, $apellidos = null) {

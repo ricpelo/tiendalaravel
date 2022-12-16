@@ -13,9 +13,13 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body>
-        <div class="font-sans text-gray-900 antialiased">
+    <body class="font-sans antialiased">
+        <div class="container mx-auto">
+            {{-- <?php require '../src/_menu.php' ?>
+            <?php require '../src/_alerts.php' ?> --}}
+            @include('layouts.guest.navigation')
             {{ $slot }}
         </div>
+        @vite(['node_modules/flowbite/dist/flowbite.js'])
     </body>
 </html>
