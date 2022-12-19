@@ -36,6 +36,12 @@ Route::get('/carrito/insertar/{id}', function ($id) {
     return redirect()->route('portal');
 })->name('carrito.insertar')->whereNumber('id');
 
+Route::get('/carrito/vaciar', function () {
+    session()->remove('carrito');
+    return redirect()->route('portal');
+})->name('carrito.vaciar');
+
+
 Route::get('/prueba/{nombre?}/{apellidos?}', function ($nombre = null, $apellidos = null) {
     if ($nombre == null) {
         // return response()->redirectTo('/');
