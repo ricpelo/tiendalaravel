@@ -20,8 +20,21 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('portal', [
         'articulos' => Articulo::all(),
+        'carrito' => carrito(),
     ]);
-});
+})->name('portal');
+
+Route::get('/carrito/insertar/{id}', function ($id) {
+    $articulo = Articulo::findOrFail($id);
+    if ($articulo->stock <= 0) {
+        session()->flash('error', 'No hay existencias suficientes.');
+    } else {
+        $carrito = carrito();
+        $carrito->insertar($id);
+        session()->put('carrito', $carrito);
+    }
+    return redirect()->route('portal');
+})->name('carrito.insertar')->whereNumber('id');
 
 Route::get('/prueba/{nombre?}/{apellidos?}', function ($nombre = null, $apellidos = null) {
     if ($nombre == null) {
@@ -44,6 +57,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::resource('articulo', ArticuloController::class);
+// Route::resource('articulo', ArticuloController::class);
 
 require __DIR__.'/auth.php';

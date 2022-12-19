@@ -2,7 +2,7 @@
 
 namespace App\Generico;
 
-use App\Tablas\Articulo;
+use App\Models\Articulo;
 
 class Linea extends Modelo
 {
