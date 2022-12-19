@@ -15,9 +15,8 @@
     </head>
     <body class="font-sans antialiased">
         <div class="container mx-auto">
-            {{-- <?php require '../src/_menu.php' ?>
-            <?php require '../src/_alerts.php' ?> --}}
             @include('layouts.guest.navigation')
+            @include('components.alerts')
             {{ $slot }}
         </div>
         @vite(['node_modules/flowbite/dist/flowbite.js'])
