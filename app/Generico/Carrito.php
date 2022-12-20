@@ -5,7 +5,7 @@ namespace App\Generico;
 use App\Models\Articulo;
 use ValueError;
 
-class Carrito extends Modelo
+class Carrito
 {
     private array $lineas;
 
