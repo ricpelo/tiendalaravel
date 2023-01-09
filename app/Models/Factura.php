@@ -13,4 +13,10 @@ class Factura extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function articulos()
+    {
+        return $this->belongsToMany(Articulo::class)
+            ->withPivot('cantidad');
+    }
 }

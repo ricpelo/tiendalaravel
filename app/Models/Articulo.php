@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Articulo extends Model
 {
     use HasFactory;
+
+    public function facturas()
+    {
+        return $this->belongsToMany(Factura::class)
+            ->withPivot('cantidad');
+    }
 }
