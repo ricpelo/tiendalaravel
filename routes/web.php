@@ -3,6 +3,9 @@
 use App\Http\Controllers\ArticuloController;
 use App\Http\Controllers\ProfileController;
 use App\Models\Articulo;
+use App\Models\Factura;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Route;
 
@@ -37,10 +40,40 @@ Route::get('/carrito/insertar/{id}', function ($id) {
 })->name('carrito.insertar')->whereNumber('id');
 
 Route::get('/carrito/vaciar', function () {
-    session()->remove('carrito');
+    session()->forget('carrito');
     return redirect()->route('portal');
 })->name('carrito.vaciar');
 
+Route::get('/comprar', function() {
+    return view('comprar', [
+        'carrito' => carrito(),
+    ]);
+})->middleware('auth')->name('comprar');
+
+Route::post('/realizar_compra', function() {
+    $carrito = carrito();
+    DB::beginTransaction();
+    $factura = new Factura();
+    $factura->user_id = Auth::id();
+    $factura->save();
+    $lineas = $carrito->getLineas();
+
+    $inserts = [];
+
+    foreach ($lineas as $articulo_id => $linea) {
+        $inserts[] = [
+            'factura_id' => $factura->id,
+            'articulo_id' => $articulo_id,
+            'cantidad' => $linea->getCantidad(),
+        ];
+    }
+
+    DB::table('articulo_factura')->insert($inserts);
+    DB::commit();
+    session()->flash('exito', 'La factura se ha generado correctamente.');
+    session()->forget('carrito');
+    return redirect()->route('portal');
+})->middleware('auth')->name('realizar_compra');
 
 Route::get('/prueba/{nombre?}/{apellidos?}', function ($nombre = null, $apellidos = null) {
     if ($nombre == null) {

@@ -8,3 +8,8 @@ function carrito()
 
     return session('carrito');
 }
+
+function dinero($s)
+{
+    return number_format($s, 2, ',', ' ') . ' €';
+}
