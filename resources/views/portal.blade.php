@@ -1,4 +1,4 @@
-<x-guest-layout>
+<x-app-layout>
     <div class="flex">
         <main class="flex-1 grid grid-cols-3 gap-4 justify-center justify-items-center">
             @foreach ($articulos as $articulo)
@@ -67,4 +67,4 @@
             </aside>
         @endif
     </div>
-</x-guest-layout>
+</x-app-layout>
